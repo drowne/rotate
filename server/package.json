@@ -1,0 +1,20 @@
+{
+  "name": "Rotate!",
+  "version" : "0.0.1",
+  "description": "A highly challenging rotate experience",
+  "main": "server.js",
+  "author": "34BigThings srl <info@34bigthings.com>",
+  "dependencies": {
+    "restify": "~1.4",
+    "mongoose": "~3",
+    "supervisor": "*"
+  },
+  "engines": {
+  "node": "0.8.x",
+  "npm":  "1.2.x"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  }
+}
