@@ -7,6 +7,8 @@
 //
 
 #import "TBCircularSlider.h"
+#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface MVRCircularInfiniteSlider : TBCircularSlider
 

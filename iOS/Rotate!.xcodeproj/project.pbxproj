@@ -23,6 +23,7 @@
 		AD3B6BBB172493D50002529C /* TBCircularSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3B6BB9172493D50002529C /* TBCircularSlider.m */; };
 		AD3B6BBE172498BE0002529C /* MVRCircularInfiniteSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3B6BBD172498BE0002529C /* MVRCircularInfiniteSlider.m */; };
 		AD7D12101724AFBD009BA2D4 /* MVRHighScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7D120F1724AFBD009BA2D4 /* MVRHighScoreViewController.m */; };
+		ADECC3F11725C61500F61D27 /* UIArcSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = ADECC3F01725C61500F61D27 /* UIArcSlider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		AD3B6BBD172498BE0002529C /* MVRCircularInfiniteSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MVRCircularInfiniteSlider.m; path = UI/MVRCircularInfiniteSlider.m; sourceTree = "<group>"; };
 		AD7D120E1724AFBD009BA2D4 /* MVRHighScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MVRHighScoreViewController.h; sourceTree = "<group>"; };
 		AD7D120F1724AFBD009BA2D4 /* MVRHighScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MVRHighScoreViewController.m; sourceTree = "<group>"; };
+		ADECC3EF1725C61500F61D27 /* UIArcSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIArcSlider.h; sourceTree = "<group>"; };
+		ADECC3F01725C61500F61D27 /* UIArcSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIArcSlider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				AD3B6BBD172498BE0002529C /* MVRCircularInfiniteSlider.m */,
 				AD7D120E1724AFBD009BA2D4 /* MVRHighScoreViewController.h */,
 				AD7D120F1724AFBD009BA2D4 /* MVRHighScoreViewController.m */,
+				ADECC3EF1725C61500F61D27 /* UIArcSlider.h */,
+				ADECC3F01725C61500F61D27 /* UIArcSlider.m */,
 			);
 			path = "Rotate!";
 			sourceTree = "<group>";
@@ -221,6 +226,7 @@
 				AD3B6BBB172493D50002529C /* TBCircularSlider.m in Sources */,
 				AD3B6BBE172498BE0002529C /* MVRCircularInfiniteSlider.m in Sources */,
 				AD7D12101724AFBD009BA2D4 /* MVRHighScoreViewController.m in Sources */,
+				ADECC3F11725C61500F61D27 /* UIArcSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

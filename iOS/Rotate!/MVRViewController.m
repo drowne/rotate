@@ -9,6 +9,7 @@
 #import "MVRViewController.h"
 #import "TBCircularSlider.h"
 #import "MVRCircularInfiniteSlider.h"
+#import "UIArcSlider.h"
 
 @interface MVRViewController ()
 
@@ -19,22 +20,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor blueColor];
     
     //Create the Circular Slider
-    TBCircularSlider *slider = [[MVRCircularInfiniteSlider alloc]initWithFrame:CGRectMake(0, 60, TB_SLIDER_SIZE, TB_SLIDER_SIZE)];
+    _circularSlider = [[MVRCircularInfiniteSlider alloc]initWithFrame:self.sliderContainer.frame];
+    
+//    id arc = [[UIArcSlider alloc] initWithFrame:self.sliderContainer.frame];
+//    [self.sliderContainer addSubview:arc];
     
     //Define Target-Action behaviour
-    [slider addTarget:self action:@selector(newValue:) forControlEvents:UIControlEventValueChanged];
+    [_circularSlider addTarget:self action:@selector(newValue:) forControlEvents:UIControlEventValueChanged];
     
-    [self.view addSubview:slider];
+    [self.sliderContainer addSubview:_circularSlider];
+    
     
 }
 
 //Called when Circular slider value changes
 -(void)newValue:(id)sender{
     TBCircularSlider *slider = (TBCircularSlider*)sender;
-    NSLog(@"Slider Value %d",slider.angle);
+    //NSLog(@"Slider Value %d",slider.angle);
 }
 
 

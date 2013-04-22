@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MVRCircularInfiniteSlider;
+
 @interface MVRViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIView *sliderContainer;
+
+@property (strong, nonatomic) MVRCircularInfiniteSlider *circularSlider;
 
 @end
