@@ -22,6 +22,7 @@
 		AD3B6BBA172493D50002529C /* handle.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AD3B6BB6172493D50002529C /* handle.jpeg */; };
 		AD3B6BBB172493D50002529C /* TBCircularSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3B6BB9172493D50002529C /* TBCircularSlider.m */; };
 		AD3B6BBE172498BE0002529C /* MVRCircularInfiniteSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3B6BBD172498BE0002529C /* MVRCircularInfiniteSlider.m */; };
+		AD7D12101724AFBD009BA2D4 /* MVRHighScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7D120F1724AFBD009BA2D4 /* MVRHighScoreViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,8 @@
 		AD3B6BB9172493D50002529C /* TBCircularSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBCircularSlider.m; sourceTree = "<group>"; };
 		AD3B6BBC172498BE0002529C /* MVRCircularInfiniteSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MVRCircularInfiniteSlider.h; path = UI/MVRCircularInfiniteSlider.h; sourceTree = "<group>"; };
 		AD3B6BBD172498BE0002529C /* MVRCircularInfiniteSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MVRCircularInfiniteSlider.m; path = UI/MVRCircularInfiniteSlider.m; sourceTree = "<group>"; };
+		AD7D120E1724AFBD009BA2D4 /* MVRHighScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MVRHighScoreViewController.h; sourceTree = "<group>"; };
+		AD7D120F1724AFBD009BA2D4 /* MVRHighScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MVRHighScoreViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +107,8 @@
 				AD3B6B95172493140002529C /* Supporting Files */,
 				AD3B6BBC172498BE0002529C /* MVRCircularInfiniteSlider.h */,
 				AD3B6BBD172498BE0002529C /* MVRCircularInfiniteSlider.m */,
+				AD7D120E1724AFBD009BA2D4 /* MVRHighScoreViewController.h */,
+				AD7D120F1724AFBD009BA2D4 /* MVRHighScoreViewController.m */,
 			);
 			path = "Rotate!";
 			sourceTree = "<group>";
@@ -215,6 +220,7 @@
 				AD3B6BAE172493140002529C /* MVRViewController.m in Sources */,
 				AD3B6BBB172493D50002529C /* TBCircularSlider.m in Sources */,
 				AD3B6BBE172498BE0002529C /* MVRCircularInfiniteSlider.m in Sources */,
+				AD7D12101724AFBD009BA2D4 /* MVRHighScoreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +353,7 @@
 				AD3B6BB3172493140002529C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

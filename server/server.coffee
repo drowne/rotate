@@ -149,7 +149,7 @@ addSpin = (req, res, next) ->
 
       Spin.find().limit(5).sort('-points').execFind((err1, bestSpins)->
         Spin.find().limit(5).sort('points').execFind((err2, worstSpins)->
-          res.send {best: bestSpins, worst: worstSpins, you: currentSpin}
+          res.send {best: bestSpins, worst: worstSpins, you: currentSpin, enumPosition: 1}
         )
       )
 
