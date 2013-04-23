@@ -1,0 +1,7 @@
+Get node latest version: http://nodejs.org/ and install it (it installs node and npm).
+Install mongodb via brew: brew install mongo
+
+move to the server folder and look for a file named package.json. If it's there you should be able to install every dependency via (sudo) npm install... so: 
+
+sudo npm install
+

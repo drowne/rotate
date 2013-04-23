@@ -97,11 +97,11 @@
 
 #pragma mark - Drawing Functions - 
 
-//Use the draw rect to draw the Background, the Circle and the Handle 
--(void)drawRect:(CGRect)rect{
-    
-    [super drawRect:rect];
+////Use the draw rect to draw the Background, the Circle and the Handle 
+//-(void)drawRect:(CGRect)rect{
 //    
+//    [super drawRect:rect];
+//
 //    CGContextRef ctx = UIGraphicsGetCurrentContext();
 //    
 ///** Draw the Background **/
@@ -194,7 +194,7 @@
 /** Draw the handle **/
 //    [self drawTheHandle:ctx];
     
-}
+//}
 
 /** Draw a white knob over the circle **/
 -(void) drawTheHandle:(CGContextRef)ctx{

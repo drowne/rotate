@@ -41,20 +41,10 @@
         _textField.text =  [NSString stringWithFormat:@"%.f", self.currentAccumulationValue];
         _rotatingClockwise = YES;
         
-        self.layer.shouldRasterize = YES;
-        self.layer.shadowOpacity = 0.01;
     }
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 - (void)reset
 {
@@ -111,7 +101,7 @@
         }
     }
         
-    NSLog(@"delta %.f\t current %.f\t last %.f \t%@", delta, floor(currentAngle), floor(self.lastAngle), self.rotatingClockwise? @"~>":@"<~" );
+    //NSLog(@"delta %.f\t current %.f\t last %.f \t%@", delta, floor(currentAngle), floor(self.lastAngle), self.rotatingClockwise? @"~>":@"<~" );
 
     self.angle = 360 - angleInt;
     _currentAccumulationValue += delta;
@@ -124,6 +114,19 @@
     
     //Redraw
     [self setNeedsDisplay];
+}
+/** Given the angle, get the point position on circumference **/
+-(CGPoint)pointFromAngle:(int)angleInt radius:(int)aRadius{
+    
+    //Circle center
+    CGPoint centerPoint = CGPointMake(self.frame.size.width/2 - TB_LINE_WIDTH/2, self.frame.size.height/2 - TB_LINE_WIDTH/2);
+    
+    //The point position on the circumference
+    CGPoint result;
+    result.y = round(centerPoint.y + aRadius * sin(ToRad(-angleInt))) ;
+    result.x = round(centerPoint.x + aRadius * cos(ToRad(-angleInt)));
+    
+    return result;
 }
 
 //Use the draw rect to draw the Background, the Circle and the Handle
@@ -148,40 +151,60 @@
     //draw it!
     CGContextDrawPath(ctx, kCGPathStroke);
     
+    CGFloat blurSize = 0;
+
     
-    //** Draw the circle (using a clipped gradient) **/
-    
-    /** Create THE MASK Image **/
+#pragma mark /** Create THE tail mask Image **/
     UIGraphicsBeginImageContext(CGSizeMake(TB_SLIDER_SIZE,TB_SLIDER_SIZE));
     CGContextRef imageCtx = UIGraphicsGetCurrentContext();
+        
+    CGContextAddArc(imageCtx, self.frame.size.width/2, self.frame.size.height/2, radius,  ToRad(self.angle+90+45), ToRad(self.angle), 1);//self.clock
     
-    CGContextAddArc(imageCtx, self.frame.size.width/2, self.frame.size.height/2, radius,  ToRad(self.angle)+M_PI_2*3, ToRad(self.angle), self.rotatingClockwise);
-    
-    CGFloat amount = self.angle/20, maxAmount = 360 / 20;
-    CGFloat blurSize = self.rotatingClockwise ? maxAmount - amount : amount;
     //Use shadow to create the Blur effect
-    CGContextSetShadowWithColor(imageCtx, CGSizeMake(0, 0), blurSize, [UIColor blackColor].CGColor);
+    blurSize = self.angle/20;
+    //CGContextSetShadowWithColor(imageCtx, CGSizeMake(0, 0), blurSize, [UIColor whiteColor].CGColor);
 
     //define the path
     CGContextSetLineWidth(imageCtx, TB_LINE_WIDTH);
     CGContextDrawPath(imageCtx, kCGPathStroke);
     
     //save the context content into the image mask
-    CGImageRef mask = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
+    CGImageRef tailMask = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
     UIGraphicsEndImageContext();
     
     
-//    /** Clip Context to the mask and draw the internal**/
+#pragma mark /** Create the slider mask Image **/
+//    UIGraphicsBeginImageContext(CGSizeMake(TB_SLIDER_SIZE,TB_SLIDER_SIZE));
+//    imageCtx = UIGraphicsGetCurrentContext();
+//    
+//    CGContextAddArc(imageCtx, self.frame.size.width/2, self.frame.size.height/2, radius,  0, ToRad(360), self.rotatingClockwise);
+//    
+//    //Use shadow to create the Blur effect
+//    CGContextSetShadowWithColor(imageCtx, CGSizeMake(0, 0), blurSize, [UIColor blackColor].CGColor);
+//    
+//    //define the path
+//    CGContextSetLineWidth(imageCtx, TB_LINE_WIDTH);
+//    CGContextDrawPath(imageCtx, kCGPathStroke);
+//    
+//    //save the context content into the image mask
+//    //CGImageRef sliderMask = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
+//    UIGraphicsEndImageContext();
+
+
+#pragma mark //** Draw the slider clipped gradient **/
+
+//    /** Clip Context to the mask **/
 //    CGContextSaveGState(ctx);
 //    {
-//        CGContextClipToMask(ctx, self.bounds, mask);
-//        CGImageRelease(mask);
+//        CGContextClipToMask(ctx, self.bounds, sliderMask);
+//        CGImageRelease(sliderMask);
 //        
 //        
 //        /** THE GRADIENT **/
+//        
 //        CGFloat components[8] = {
-//            1.0, 1.0, 0.0, 0.0,     // Start color - Blue
-//            0.8, 0.8, 0.0, 1.0 };   // endcolor
+//        1.0, 1.0, 1.0, 1,     // Start color - Blue
+//        0.8, 0.8, 0.0, 1 };   // endcolor
 //        
 //        CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
 //        CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, components, NULL, 2);
@@ -190,81 +213,136 @@
 //        //Gradient direction
 //        CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
 //        CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-//        if (self.rotatingClockwise) {
-//            CGPoint tempPoint = startPoint;
-//            startPoint = endPoint;
-//            endPoint = tempPoint;
-//        }
 //        
-//        
-//        
+//                
 //        //Draw the gradient
 //        CGContextDrawLinearGradient(ctx, gradient, startPoint, endPoint, 0);
 //        CGGradientRelease(gradient), gradient = NULL;
 //        
-//        
+//
 //    } CGContextRestoreGState(ctx);
     
-    /** Clip Context to the mask **/
+#pragma mark //** Draw the tail clipped gradient **/
+    
+    /** Clip Context to the mask and draw the internal**/
     CGContextSaveGState(ctx);
     {
-        CGContextClipToMask(ctx, self.bounds, mask);
-        CGImageRelease(mask);
+        CGContextClipToMask(ctx, self.bounds, tailMask);
+        CGImageRelease(tailMask);
         
-        
+
         /** THE GRADIENT **/
-        
         CGFloat components[8] = {
-        0.0, 0.0, 1.0, 0.0,     // Start color - Blue
-        1.0, 0.0, 0.0, 1.0 };   // endcolor
+            0.0, 1.0, 0.0, 1.0,     // Start color - Blue
+            0.0, 0.0, 0.0, 0.0 };   // endcolor
         
         CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
         CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, components, NULL, 2);
         CGColorSpaceRelease(baseSpace), baseSpace = NULL;
         
         //Gradient direction
-        CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
-        CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
-        if (self.rotatingClockwise) {
-            CGPoint tempPoint = startPoint;
-            startPoint = endPoint;
-            endPoint = tempPoint;
-        }
+        CGPoint startPoint = CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect));
+        CGPoint endPoint = CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect));
         
+        int startAngle = self.angle-50;
+        if (startAngle < 0) startAngle += 360;
         
+        int endAngle = startAngle + 180;
+        if (endAngle >= 360) endAngle -= 360;
         
+        startPoint = [self pointFromAngle:startAngle radius:2*radius];
+        endPoint = [self pointFromAngle:endAngle radius:2*radius];
+        NSLog(@"s:%@(%d) e:%@(%d) - %d", NSStringFromCGPoint(startPoint), startAngle, NSStringFromCGPoint(endPoint), endAngle, self.angle);
+        
+//        drawgradientIncontext(ctx, gradient, self.angle, rect, radius);
+
+//        NSLog(@"s:%@ e:%@ %d", NSStringFromCGPoint(startPoint), NSStringFromCGPoint(endPoint), self.angle);
         //Draw the gradient
         CGContextDrawLinearGradient(ctx, gradient, startPoint, endPoint, 0);
         CGGradientRelease(gradient), gradient = NULL;
         
-
+        
     } CGContextRestoreGState(ctx);
     
     
+
     
+    /** Add some light reflection effects on the background circle**/
+    //inner and outer slider circles strokes
     
-//
-//    
-//    /** Add some light reflection effects on the background circle**/
-//    
-//    CGContextSetLineWidth(ctx, 1);
-//    CGContextSetLineCap(ctx, kCGLineCapRound);
-//    
-//    //Draw the outside light
-//    CGContextBeginPath(ctx);
-//    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, radius+TB_BACKGROUND_WIDTH/2, 0, ToRad(-self.angle), 1);
-//    [[UIColor colorWithWhite:1.0 alpha:0.05]set];
-//    CGContextDrawPath(ctx, kCGPathStroke);
-//    
-//    //draw the inner light
-//    CGContextBeginPath(ctx);
-//    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, radius-TB_BACKGROUND_WIDTH/2, 0, ToRad(-self.angle), 1);
-//    [[UIColor colorWithWhite:1.0 alpha:0.05]set];
-//    CGContextDrawPath(ctx, kCGPathStroke);
+    CGContextSetLineWidth(ctx, 1);
+    CGContextSetLineCap(ctx, kCGLineCapRound);
+    
+    //Draw the outside light
+    CGContextBeginPath(ctx);
+    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, radius+TB_BACKGROUND_WIDTH/2, 0, ToRad(-self.angle), 1);
+    [[UIColor colorWithWhite:1.0 alpha:0.01]set];
+    CGContextDrawPath(ctx, kCGPathStroke);
+    
+    //draw the inner light
+    CGContextBeginPath(ctx);
+    CGContextAddArc(ctx, self.frame.size.width/2  , self.frame.size.height/2, radius-TB_BACKGROUND_WIDTH/2, 0, ToRad(-self.angle), 1);
+    [[UIColor colorWithWhite:1.0 alpha:0.01]set];
+    CGContextDrawPath(ctx, kCGPathStroke);
     
     
     /** Draw the handle **/
     [self drawTheHandle:ctx];
+    
+}
+
+
+
+typedef NS_ENUM(NSInteger, MVRHandlePositionInCircle) {
+    MVRHandlePositionInCircleTop = 3,
+    MVRHandlePositionInCircleBottom = 1,
+    MVRHandlePositionInCircleLeft = 2,
+    MVRHandlePositionInCircleRight = 0
+};
+
+void drawgradientIncontext(CGContextRef context, CGGradientRef gradient, int angle, CGRect rect, int radius)
+{
+    CGPoint startPoint = CGPointZero, endPoint = CGPointZero;
+    
+    CGPoint centerPt = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
+    CGPoint handlePt;
+    handlePt.y = round(centerPt.y + CGRectGetMaxX(rect) * sin(ToRad(-angle))) ;
+    handlePt.x = round(centerPt.x + CGRectGetMaxY(rect) * cos(ToRad(-angle)));
+    
+    int x = 0;
+    int y = 0;
+    BOOL validX = NO;
+    MVRHandlePositionInCircle position = 0;
+    
+    if ((angle >= 360-45 && angle <= 360) ||
+        (angle >= 0 && angle <= 45)) {
+        //handle on the right (INCLUDES corners)
+        position = MVRHandlePositionInCircleRight;
+    } else if (angle > 360-135 && angle < 360-45 && angle ) {
+        //handle on the bottom (EXLUDES corners)
+        position = MVRHandlePositionInCircleBottom;
+    } else if (angle >= 180-45 && angle <= 360-135 && angle ) {
+        //handle on the left (INCLUDES corners)
+        position = MVRHandlePositionInCircleLeft;
+    } else if (angle > 45 && angle < 180-45 && angle ) {
+        //handle on the Top (EXLUDES corners)
+        position = MVRHandlePositionInCircleTop;
+    } else {
+//        NSAssert(NO, @"Il triangolo no, non lo avevo considerato... (%d)", angle);
+        NSLog(@"aaa");
+    }
+    
+//    if (validX) {
+//        y = ((x - centerPt.x)*(handlePt.y - centerPt.y)/(handlePt.x - centerPt.x)) + centerPt.y;
+//    }else{
+//        x = ((y - centerPt.y)*(handlePt.x - centerPt.x)/(handlePt.y - centerPt.y)) + centerPt.x;
+//    }
+//    startPoint = pointFromAngle
+    
+    NSLog(@"s:%@ e:%@ vX:%d p:%d", NSStringFromCGPoint(startPoint), NSStringFromCGPoint(endPoint), angle, position);
+    
+    //draw the gradient
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, kCGGradientDrawsAfterEndLocation);
     
 }
 
